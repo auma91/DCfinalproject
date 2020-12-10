@@ -6,13 +6,27 @@ from . import db, bcrypt, login_manager
 def filterByEmail(email):
 	return Users.query.filter_by(email=email).first()
 
+def filterPlantByID(id):
+	return Plant.query.filter_by(id=id).first()
+
+def filterPlantBySerial(serial):
+	return Plant.query.filter_by(serial=serial).first()
+
+def movePlant(plant):
+	plant.update_status()
+	db.session.add(plant)
+	db.session.commit()
+
 def registerUser(username, email, password):
 	user = Users(username=username, email=email)
 	user.set_password(password)
 	db.session.add(user)
 	db.session.commit()
 def currentUser():
-	return current_user.is_authenticated
+	current_user.is_authenticated
+
+def getCurrentUser():
+	return current_user
 
 def loginUser(user, remember=True):
 	login_user(user, remember=True)
@@ -45,9 +59,12 @@ class Plant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	outside = db.Column(db.Boolean, nullable=False)
 	serial = db.Column(db.String(50), nullable=False)
+
+	def get_id(self):
+		return self.id
 	def update_state(self):
 		self.outside = not self.outside
 	def current_state(self):
-		return self.on
+		return self.outside
 	def __repr__(self):
 		return f"Light('{self.id}', '{self.outside}', '{self.serial}')"

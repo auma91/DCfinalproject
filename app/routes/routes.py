@@ -1,6 +1,6 @@
 from flask import Blueprint, Flask, render_template, url_for, request, redirect
 import json, os, psycopg2
-from ..models.users import currentUser, filterByEmail, registerUser, loginUser, logout_user
+from ..models.users import currentUser, filterByEmail, registerUser, loginUser, logout_user, filterPlantByID, movePlant, getCurrentUser, filterPlantBySerial
 from ..models import redisCon
 mod_auth = Blueprint('auth', __name__, url_prefix='/')
 @mod_auth.route('/login', methods=['GET', 'POST'])
@@ -9,7 +9,7 @@ def login():
 	if request.method == 'POST':
 		if currentUser():
 			#print(current_user)
-			return redirect(url_for('/'))
+			return redirect(url_for('auth.index'))
 
 		else:
 			email = request.form['email']
@@ -20,7 +20,7 @@ def login():
 				next_page = request.args.get('next')
 				#print(next_page)
 				if next_page is None:
-					next_page = url_for('/')
+					next_page = url_for('auth.index')
 				#print(next_page)
 				return redirect(next_page)
 			else:
@@ -65,8 +65,22 @@ def register():
 		else:
 			return render_template('register.html')
 
+@mod_auth.route('/move', methods=['POST'])
+def match():
+	id = request.args.get('id')
+	plant = filterPlantByID(id)
+	movePlant(plant)
+	return id
+
 @mod_auth.route('/', methods=['POST', 'GET'])
 def index():
-	print("Work")
-	return render_template('loggedin.html', planttype = "pottedplant.png", user="current_user.username", light="ON")
-
+	if currentUser():
+		serial = redisCon.get(str(getCurrentUser().get_id()))
+		plant= filterPlantBySerial(serial)
+		return render_template('loggedin.html',
+		                       planttype="pottedplant.png",
+		                       user="current_user.username",
+		                       indoors= "True" if plant.current_state() else "False",
+		                       plantid="plant.id")
+	else:
+		return redirect(url_for("auth.login"))

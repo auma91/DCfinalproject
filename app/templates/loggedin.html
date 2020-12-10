@@ -6,7 +6,7 @@
 
 {% block body %}
     <div style="" class="title">
-        <h1 >Welcome Person</h1>
+        <h1 >Welcome {{ user }}</h1>
     </div>
     <div class="limiter">
             <div class="container-login">
@@ -15,20 +15,31 @@
                         <img src="{{ url_for('static', filename='images/plants/') }}{{ planttype }}">
                     </div>
                     <div class="sensor-data">
+
                         <h6> Pot does not require any watering today.</h6>
                     </div>
                     <div class="sensor-move">
-                        <form method="POST" action="/move" class="">
+                        <form method="POST" action="/move?id={{ plantid }}" class="">
                             <span style="text-align: center;" class="">
+                                {% if indoors == True %}
                                 <h4>Sensor is Indoors</h4>
+                                {% else %}
+                                <h4>Sensor is Outdoors</h4>
+                                {% endif %}
                             </span>
 
 
 
                             <div class="container-login-form-btn">
+                                {% if indoors == True %}
                                 <button type="submit" class="login-form-btn">
                                     Send Sensor: Outside
                                 </button>
+                                {% else %}
+                                <button type="submit" class="login-form-btn">
+                                    Send Sensor: Inside
+                                </button>
+                                {% endif %}
                             </div>
 
                         </form>
