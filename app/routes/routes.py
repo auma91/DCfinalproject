@@ -56,7 +56,7 @@ def register():
 		serial = request.form['serial']
 		#print(username, email, passw)
 		print(name, email, passw, number, zip, serial)
-		registerUser(name, email, passw)
+		registerUser(name, email, passw, number, zip)
 		userid = filterByEmail(email).get_id()
 		redisCon.insert(str(userid), str(serial))
 		return redirect(url_for('auth.login'))
