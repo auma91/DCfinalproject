@@ -1,9 +1,12 @@
 
 import redis
 
-r = redis.Redis(
-	host='10.11.157.211',
+import redis
+redisConnection = redis.Redis(
+	host='localhost',
 	port=6379)
-r.set('foo', 'bar')
-value = r.get('foo')
+redisConnection.connection.host = "10.11.157.211"
+redisConnection.set('foo', 'bar')
+value = redisConnection.get('foo')
 print(value)
+redisConnection.close()
