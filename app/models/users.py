@@ -30,6 +30,9 @@ class Users(UserMixin, db.Model):
 	zipcode = db.Column(db.Integer, nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.now())
 
+	def get_id(self):
+		return self.id
+
 	def set_password(self, password):
 		self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
 

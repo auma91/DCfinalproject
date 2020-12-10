@@ -37,11 +37,11 @@ def logout():
 		logout_user()
 	return redirect(url_for('auth.index'))
 
-@mod_auth.route('/fun')
-def fun():
-	redisCon.insert("bob","sucks")
-	print(redisCon.get("bob"))
-	return "Hello"
+# @mod_auth.route('/fun')
+# def fun():
+# 	redisCon.insert("bob","sucks")
+# 	print(redisCon.get("bob"))
+# 	return "Hello"
 
 @mod_auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -54,9 +54,10 @@ def register():
 		number = request.form['phone']
 		zip = request.form['zip']
 		serial = request.form['serial']
-
 		#print(username, email, passw)
 		registerUser(name, email, passw)
+		userid = filterByEmail(email).get_id()
+		redisCon.insert(str(userid), str(serial))
 		return redirect(url_for('auth.login'))
 	else:
 		if currentUser():
@@ -67,5 +68,5 @@ def register():
 @mod_auth.route('/', methods=['POST', 'GET'])
 def index():
 	print("Work")
-	return render_template('loggedin.html', user="current_user.username", light="ON")
+	return render_template('loggedin.html', planttype = "pottedplant.png", user="current_user.username", light="ON")
 
