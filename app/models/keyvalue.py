@@ -7,4 +7,4 @@ class redisConnection():
 	def insert(self, userid, serial):
 		self.r.set(str(userid), str(serial))
 	def get(self, userid):
-		self.r.get(str(userid))
+		return self.r.get(str(userid))
