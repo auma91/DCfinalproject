@@ -1,6 +1,6 @@
 import redis
 class redisConnection():
-	def __init__(self, host):
+	def __init__(self):
 		self.r = None
 	def setConnection(self, host):
 		self.r = redis.Redis(host=host, port = 6379)
