@@ -1,25 +1,13 @@
-from flask_login import UserMixin, login_user, current_user, logout_user, login_required
-from datetime import datetime
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
-from . import db, bcrypt, login_manager
+from datetime import datetime
+app = Flask(__name__)
 
-def filterByEmail(email):
-	return Users.query.filter_by(email=email).first()
-
-def registerUser(username, email, password):
-	user = Users(username=username, email=email)
-	user.set_password(password)
-	db.session.add(user)
-	db.session.commit()
-def currentUser():
-	return current_user.is_authenticated
-
-def loginUser(user, remember=True):
-	login_user(user, remember=True)
-
-@login_manager.user_loader
-def load_user(id):
-	return Users.query.get(int(id))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres+psycopg2://postgres:9I4ME8ghDvrBorou@35.232.202.135:5432/irrigation'
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 class Users(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -48,3 +36,6 @@ class Plant(db.Model):
 		return self.on
 	def __repr__(self):
 		return f"Light('{self.id}', '{self.outside}', '{self.serial}')"
+
+db.create_all()
+db.session.commit()
