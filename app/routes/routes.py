@@ -1,7 +1,7 @@
 from flask import Blueprint, Flask, render_template, url_for, request, redirect
 import json, os, psycopg2
 from ..models.users import currentUser, filterByEmail, registerUser, loginUser, logout_user
-
+from ..models.keyvalue import insert, get
 mod_auth = Blueprint('auth', __name__, url_prefix='/')
 @mod_auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -36,6 +36,12 @@ def logout():
 	if currentUser():
 		logout_user()
 	return redirect(url_for('auth.index'))
+
+@mod_auth.route('/fun')
+def fun():
+	insert("bob","sucks")
+	print(get("bob"))
+	return "Hello"
 
 @mod_auth.route('/register', methods=['GET', 'POST'])
 def register():
