@@ -1,7 +1,7 @@
 from flask import Blueprint, Flask, render_template, url_for, request, redirect
 import json, os, psycopg2
 from ..models.users import currentUser, filterByEmail, registerUser, loginUser, logout_user
-from ..models.keyvalue import insert, get
+from ..models import redisCon
 mod_auth = Blueprint('auth', __name__, url_prefix='/')
 @mod_auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,8 +39,8 @@ def logout():
 
 @mod_auth.route('/fun')
 def fun():
-	insert("bob","sucks")
-	print(get("bob"))
+	redisCon.insert("bob","sucks")
+	print(redisCon.get("bob"))
 	return "Hello"
 
 @mod_auth.route('/register', methods=['GET', 'POST'])
