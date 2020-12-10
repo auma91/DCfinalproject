@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V1</title>
+	<title>iRRIGATION</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -19,10 +19,18 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fun.css') }}">
+
 <!--===============================================================================================-->
     {% block head %}{% endblock %}
 </head>
-<body>
+<body style="background: linear-gradient(-135deg, #c850c0, #4158d0); height: 100vh;">
+    <nav class="navbar navbar-dark bg-dark justify-content-between" style="background-color: #202121!important; color:white;">
+          <a class="navbar-brand">iRRIGATOR</a>
+          <form action="/logout" class="form-inline">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+          </form>
+    </nav>
 	{% block body %}{% endblock %}
 	
 <!--===============================================================================================-->	

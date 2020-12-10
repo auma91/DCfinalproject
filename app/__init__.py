@@ -4,7 +4,7 @@ def create_app():
 	app = Flask(__name__)
 	##################################
 	# config
-	DB_URL = "postgres+psycopg2://spssvllasvujqp:63a948723ae021da3156d22b0259fdbaa0979dc77977b092059c528968393349@ec2-52-44-55-63.compute-1.amazonaws.com:5432/d4ginmtjpblc2s"
+	DB_URL = "postgres+psycopg2://postgres:9I4ME8ghDvrBorou@35.232.202.135:5432/irrigation"
 	# os.environ.get("DATABASE_URL")[0:8] + '+psycopg2' + os.environ.get("DATABASE_URL")[8::]
 	app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 	app.config['SECRET_KEY'] = 'you-will-never-guess'

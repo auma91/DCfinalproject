@@ -23,9 +23,12 @@ def load_user(id):
 
 class Users(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(200), nullable=False)
+	name = db.Column(db.String(200), nullable=False)
 	email = db.Column(db.String(200), nullable=False)
 	password = db.Column(db.String(200), nullable=False)
+	phone = db.Column(db.String(20), nullable=True)
+	zipcode = db.Column(db.Integer, nullable=False)
+	serial = db.Column(db.String(50), nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.now())
 
 	def set_password(self, password):
@@ -36,9 +39,9 @@ class Users(UserMixin, db.Model):
 	def __repr__(self):
 		return f"User('{self.username}', '{self.email}', '{self.id}')"
 
-class Light(db.Model):
+class Plant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	on = db.Column(db.Boolean, nullable=False)
+	outside = db.Column(db.Boolean, nullable=False)
 	date_updated = db.Column(db.DateTime, nullable=False, default=datetime.now())
 	user_id_updated = db.Column(db.Integer, nullable=False)
 	def update_date(self):

@@ -1,0 +1,6 @@
+DB Credentials
+====================
+Instance Name:
+Default User: postgres
+Default Pass: 9I4ME8ghDvrBorou
+MasterofAll
