@@ -1,6 +1,22 @@
-from app.routes import app, db, bcrypt, login_manager
+from flask_login import UserMixin, login_user, current_user, logout_user, login_required
 from datetime import datetime
 from flask_login import UserMixin
+from . import db, bcrypt, login_manager
+
+def filterByEmail(email):
+	return Users.query.filter_by(email=email).first()
+
+def registerUser(username, email, password):
+	user = Users(username=username, email=email)
+	user.set_password(password)
+	db.session.add(user)
+	db.session.commit()
+def currentUser():
+	return current_user.is_authenticated
+
+def loginUser(user, remember=True):
+	login_user(user, remember=True)
+
 @login_manager.user_loader
 def load_user(id):
 	return Users.query.get(int(id))

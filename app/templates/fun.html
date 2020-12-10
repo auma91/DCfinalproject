@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V1</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="fun.css">
+    <!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+</head>
+<body style="background: linear-gradient(-135deg, #c850c0, #4158d0); height: 100vh;">
+    <nav class="navbar navbar-dark bg-dark justify-content-between" style="background-color: #202121!important; color:white;">
+          <a class="navbar-brand">iRRIGATOR</a>
+          <form action="/logout" class="form-inline">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+          </form>
+    </nav>
+    <div style="" class="title">
+        <h1 >Welcome Person</h1>
+    </div>
+    <div class="limiter">
+            <div class="container-login">
+                <div style ="" class="wrap-login">
+                    <div class="sensor-image" >
+                        <img src="../static/images/plants/pottedplant.png">
+                    </div>
+                    <div class="sensor-data">
+                        <h6> Pot does not require any watering today.</h6>
+                    </div>
+                    <div class="sensor-move">
+                        <form method="POST" action="/move" class="">
+                            <span style="text-align: center;" class="">
+                                <h4>Sensor is Indoors</h4>
+                            </span>
+
+
+
+                            <div class="container-login-form-btn">
+                                <button type="submit" class="login-form-btn">
+                                    Send Sensor: Outside
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    <!--===============================================================================================-->
+	<script src="../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../static/vendor/bootstrap/js/popper.js"></script>
+	<script src="../staticvendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../static/vendor/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="../static/js/main.js"></script>
+
+</body>
+</html>
