@@ -8,7 +8,7 @@ def create_app():
 	# os.environ.get("DATABASE_URL")[0:8] + '+psycopg2' + os.environ.get("DATABASE_URL")[8::]
 	app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 	app.config['SECRET_KEY'] = 'you-will-never-guess'
-	models.init_app(app)
+	models.init_app(app, "10.11.157.211")
 	from app.routes.routes import mod_auth as auth_module
 
 	# Register blueprint(s)
