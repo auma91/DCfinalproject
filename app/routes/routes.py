@@ -55,6 +55,7 @@ def register():
 		zip = request.form['zip']
 		serial = request.form['serial']
 		#print(username, email, passw)
+		print(name, email, passw, number, zip, serial)
 		registerUser(name, email, passw)
 		userid = filterByEmail(email).get_id()
 		redisCon.insert(str(userid), str(serial))

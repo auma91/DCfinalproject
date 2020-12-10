@@ -18,6 +18,7 @@ def movePlant(plant):
 	db.session.commit()
 
 def registerUser(username, email, password):
+	print("Here")
 	user = Users(name=username, email=email)
 	user.set_password(password)
 	db.session.add(user)
