@@ -7,7 +7,7 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 redisCon = redisConnection()
-def init_app(app, host):
+def init_app(app, host="locahost"):
 	db.init_app(app)
 	login_manager.init_app(app)
 	bcrypt.init_app(app)

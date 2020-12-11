@@ -18,6 +18,9 @@ class Users(UserMixin, db.Model):
 	zipcode = db.Column(db.Integer, nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.now())
 
+	def get_id(self):
+		return self.id
+
 	def set_password(self, password):
 		self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
 
@@ -30,10 +33,18 @@ class Plant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	outside = db.Column(db.Boolean, nullable=False)
 	serial = db.Column(db.String(50), nullable=False)
+	dry = db.Column(db.Boolean, nullable=False)
+
+	def get_id(self):
+		return self.id
 	def update_state(self):
 		self.outside = not self.outside
 	def current_state(self):
-		return self.on
+		return self.outside
+	def isDry(self):
+		return self.dry
+	def update_dry(self):
+		self.dry = not self.dry
 	def __repr__(self):
 		return f"Light('{self.id}', '{self.outside}', '{self.serial}')"
 

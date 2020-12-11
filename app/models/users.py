@@ -20,7 +20,7 @@ def movePlant(plant):
 def registerUser(username, email, password, phone, zip, serial, outside):
 	print("Here")
 	user = Users(name=username, email=email, phone=phone, zipcode=zip)
-	plant = Plant(outside=outside, serial=serial)
+	plant = Plant(outside=outside, serial=serial, dry=True)
 	user.set_password(password)
 	db.session.add(user)
 	db.session.add(plant)
@@ -62,6 +62,7 @@ class Plant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	outside = db.Column(db.Boolean, nullable=False)
 	serial = db.Column(db.String(50), nullable=False)
+	dry = db.Column(db.Boolean, nullable=False)
 
 	def get_id(self):
 		return self.id
@@ -69,5 +70,9 @@ class Plant(db.Model):
 		self.outside = not self.outside
 	def current_state(self):
 		return self.outside
+	def isDry(self):
+		return self.dry
+	def update_dry(self):
+		self.dry = not self.dry
 	def __repr__(self):
 		return f"Light('{self.id}', '{self.outside}', '{self.serial}')"
