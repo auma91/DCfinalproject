@@ -70,7 +70,7 @@ def move():
 	id = request.args.get('id')
 	plant = filterPlantByID(id)
 	movePlant(plant)
-	return id
+	return redirect(url_for("auth.index"))
 
 @mod_auth.route('/', methods=['POST', 'GET'])
 def index():
