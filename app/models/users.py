@@ -1,6 +1,6 @@
-from flask_login import UserMixin, login_user, current_user, logout_user, login_required
+from flask_login import UserMixin, login_user, logout_user, login_required
 from datetime import datetime
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from . import db, bcrypt, login_manager
 
 def filterByEmail(email):
@@ -24,7 +24,7 @@ def registerUser(username, email, password, phone, zip):
 	db.session.add(user)
 	db.session.commit()
 def currentUser():
-	current_user.is_authenticated
+	return current_user.is_authenticated
 
 def getCurrentUser():
 	return current_user

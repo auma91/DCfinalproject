@@ -5,7 +5,6 @@ from ..models import redisCon
 mod_auth = Blueprint('auth', __name__, url_prefix='/')
 @mod_auth.route('/login', methods=['GET', 'POST'])
 def login():
-	print("Hello")
 	if request.method == 'POST':
 		if currentUser():
 			#print(current_user)
@@ -15,19 +14,17 @@ def login():
 			email = request.form['email']
 			passw = request.form['pass']
 			user = filterByEmail(email)
+			print(user)
 			if user is not None and user.check_password(passw):
+				print("Here")
 				loginUser(user, remember=True)
-				next_page = request.args.get('next')
-				#print(next_page)
-				if next_page is None:
-					next_page = url_for('auth.index')
-				#print(next_page)
-				return redirect(next_page)
+				print("login")
+				return redirect(url_for('auth.index'))
 			else:
 				return 'Error'
 	else:
 		if currentUser():
-			return redirect(url_for('/'))
+			return redirect(url_for('auth.index'))
 		else:
 			return render_template('login.html')
 
