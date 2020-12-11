@@ -83,7 +83,7 @@ def index():
 		                       planttype="pottedplant.png" if plant.current_state() else "pottedplant.png" ,
 		                       water = plant.dry and not rain,
 		                       user=getCurrentUser().name,
-		                       indoors= "True" if plant.current_state() else "False",
+		                       indoors= "True" if not plant.current_state() else "False",
 		                       plantid=plant.id)
 	else:
 		return redirect(url_for("auth.login"))
