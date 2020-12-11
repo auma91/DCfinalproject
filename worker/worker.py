@@ -1,6 +1,6 @@
 from concurrent.futures import TimeoutError
 from google.cloud import pubsub_v1
-import json, time
+import json, time, sys
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
@@ -11,16 +11,16 @@ subscription_id = "test_sub"
 # Number of seconds the subscriber should listen for messages
 timeout = 5.0
 
-subscriber = pubsub_v1.SubscriberClient()
-# The `subscription_path` method creates a fully qualified identifier
-# in the form `projects/{project_id}/subscriptions/{subscription_id}`
-subscription_path = subscriber.subscription_path(project_id, subscription_id)
-
 def filterPlantBySerial(serial):
 	return Plant.query.filter_by(serial=serial).first()
 
 def movePlant(plant):
 	plant.update_status()
+	db.session.add(plant)
+	db.session.commit()
+
+def changeDryness(plant):
+	plant.update_dry()
 	db.session.add(plant)
 	db.session.commit()
 
@@ -49,32 +49,41 @@ def callback(message):
 	dataJ = json.loads(data)
 	attr = message.attributes
 	plant = filterPlantBySerial(attr['device_id'])
-	# if plant.dry
+	if plant.dry != bool(dataJ["need_watering"]):
+		changeDryness(plant)
 	print(data, attr, plant)
-	message.ack()
 
 NUM_MESSAGES = 10
 
 # Wrap the subscriber in a 'with' block to automatically call close() to
 # close the underlying gRPC channel when done.
 while True:
-	with subscriber:
-		# The subscriber pulls a specific number of messages.
+	try:
+		subscriber = pubsub_v1.SubscriberClient()
+		# The `subscription_path` method creates a fully qualified identifier
+		# in the form `projects/{project_id}/subscriptions/{subscription_id}`
+		subscription_path = subscriber.subscription_path(project_id, subscription_id)
 		response = subscriber.pull(
 			request={"subscription": subscription_path, "max_messages": NUM_MESSAGES}
 		)
 		ack_ids = []
-		for received_message in response.received_messages:
-			#print(f"Received: {received_message.message.data}.")
-			callback(received_message.message)
-			ack_ids.append(received_message.ack_id)
+		if len(response.received_messages) > 0:
+			for received_message in response.received_messages:
+				# print(f"Received: {received_message.message.data}.")
+				callback(received_message.message)
+				ack_ids.append(received_message.ack_id)
 
-		# Acknowledges the received messages so they will not be sent again.
-		subscriber.acknowledge(
-			request={"subscription": subscription_path, "ack_ids": ack_ids}
-		)
+			# Acknowledges the received messages so they will not be sent again.
+			subscriber.acknowledge(
+				request={"subscription": subscription_path, "ack_ids": ack_ids}
+			)
 
 		print(
 			f"Received and acknowledged {len(response.received_messages)} messages from {subscription_path}."
 		)
+		subscriber.close()
+	except:  # catch *all* exceptions
+		e = sys.exc_info()[0]
+		print(">Error: %s" % e)
+		time.sleep(5)
 	time.sleep(5)

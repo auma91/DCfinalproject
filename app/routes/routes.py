@@ -1,8 +1,9 @@
 from flask import Blueprint, Flask, render_template, url_for, request, redirect
-import json, os, psycopg2
+import json, os, psycopg2, requests
 from ..models.users import currentUser, filterByEmail, registerUser, loginUser, logout_user, filterPlantByID, movePlant, getCurrentUser, filterPlantBySerial
 from ..models import redisCon
 mod_auth = Blueprint('auth', __name__, url_prefix='/')
+weatherapikey= "6545ce0d4b8726f11fee3867ee16ebf8"
 @mod_auth.route('/login', methods=['GET', 'POST'])
 def login():
 	if request.method == 'POST':
@@ -76,10 +77,30 @@ def index():
 	if currentUser():
 		serial = redisCon.get(str(getCurrentUser().get_id())).decode("utf-8")
 		plant= filterPlantBySerial(serial)
+		rain = rainToday()
 		return render_template('loggedin.html',
 		                       planttype="pottedplant.png" if plant.current_state() else "pottedplant.png" ,
+		                       water = plant.dry and not rain,
 		                       user=getCurrentUser().name,
 		                       indoors= "True" if plant.current_state() else "False",
 		                       plantid=plant.id)
 	else:
 		return redirect(url_for("auth.login"))
+
+def rainToday(zip):
+	url = "http://api.openweathermap.org/data/2.5/weather?zip={},us&appid={}".format(zip, weatherapikey)
+	response = requests.get(url)
+	data = response.json()
+	lon = data['coord']['lon']
+	lat = data['coord']['lat']
+	url = "https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&exclude={}&appid={}".format(lat, lon, "current,daily,minutely,alerts", weatherapikey)
+	response = requests.get(url)
+	data = response.json()
+	print(len(data["hourly"]))
+	hourlydata = data["hourly"][:12]
+	for i in hourlydata:
+		print(i)
+		for j in i["weather"]:
+			if j["main"].lower() == "rain":
+				return True
+	return False

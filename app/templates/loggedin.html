@@ -15,8 +15,12 @@
                         <img src="{{ url_for('static', filename='images/plants/') }}{{ planttype }}">
                     </div>
                     <div class="sensor-data">
+                        {% if water != True %}
+                            <h6> Pot does not require any watering today.</h6>
+                        {% else %}
+                            <h6> Pot needs to be watered today.</h6>
+                        {% endif %}
 
-                        <h6> Pot does not require any watering today.</h6>
                     </div>
                     <div class="sensor-move">
                         <form method="POST" action="/move?id={{ plantid }}" class="">
