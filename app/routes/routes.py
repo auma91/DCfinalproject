@@ -77,8 +77,8 @@ def index():
 		serial = redisCon.get(str(getCurrentUser().get_id())).decode("utf-8")
 		plant= filterPlantBySerial(serial)
 		return render_template('loggedin.html',
-		                       planttype="pottedplant.png",
-		                       user="current_user.username",
+		                       planttype="pottedplant.png" if plant.current_state() else "pottedplant.png" ,
+		                       user=getCurrentUser().name,
 		                       indoors= "True" if plant.current_state() else "False",
 		                       plantid="plant.id")
 	else:
