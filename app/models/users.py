@@ -75,4 +75,4 @@ class Plant(db.Model):
 	def update_dry(self):
 		self.dry = not self.dry
 	def __repr__(self):
-		return f"Light('{self.id}', '{self.outside}', '{self.serial}')"
+		return f"Plant('{self.id}', '{self.outside}', '{self.serial}', ' {self.dry})"

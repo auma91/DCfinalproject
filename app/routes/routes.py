@@ -78,7 +78,7 @@ def index():
 	if currentUser():
 		serial = redisCon.get(str(getCurrentUser().get_id())).decode("utf-8")
 		plant= filterPlantBySerial(serial)
-
+		print(plant)
 		if not plant.outside:
 			water = plant.dry
 		else:
