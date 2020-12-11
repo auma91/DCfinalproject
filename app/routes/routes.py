@@ -73,7 +73,7 @@ def match():
 @mod_auth.route('/', methods=['POST', 'GET'])
 def index():
 	if currentUser():
-		serial = redisCon.get(str(getCurrentUser().get_id()))
+		serial = redisCon.get(str(getCurrentUser().get_id())).decode("utf-8")
 		plant= filterPlantBySerial(serial)
 		return render_template('loggedin.html',
 		                       planttype="pottedplant.png",
