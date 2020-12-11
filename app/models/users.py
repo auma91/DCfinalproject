@@ -17,11 +17,13 @@ def movePlant(plant):
 	db.session.add(plant)
 	db.session.commit()
 
-def registerUser(username, email, password, phone, zip):
+def registerUser(username, email, password, phone, zip, serial, outside):
 	print("Here")
 	user = Users(name=username, email=email, phone=phone, zipcode=zip)
+	plant = Plant(outside=outside, serial=serial)
 	user.set_password(password)
 	db.session.add(user)
+	db.session.add(plant)
 	db.session.commit()
 def currentUser():
 	return current_user.is_authenticated

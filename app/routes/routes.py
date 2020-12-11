@@ -51,9 +51,10 @@ def register():
 		number = request.form['phone']
 		zip = request.form['zip']
 		serial = request.form['serial']
+		outside = True if request.form.get("outside") else False
 		#print(username, email, passw)
-		print(name, email, passw, number, zip, serial)
-		registerUser(name, email, passw, number, zip)
+		print(name, email, passw, number, zip, serial, outside)
+		registerUser(name, email, passw, number, zip, serial, outside)
 		userid = filterByEmail(email).get_id()
 		redisCon.insert(str(userid), str(serial))
 		return redirect(url_for('auth.login'))
