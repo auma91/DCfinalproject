@@ -41,7 +41,7 @@ class Plant(db.Model):
 	def update_dry(self):
 		self.dry = not self.dry
 	def __repr__(self):
-		return f"Light('{self.id}', '{self.outside}', '{self.serial}')"
+		return f"Light('{self.id}', '{self.outside}', '{self.serial}', ' {self.dry})"
 
 def callback(message):
 	#print(f"Received {message}.")
@@ -86,4 +86,4 @@ while True:
 		e = sys.exc_info()[0]
 		print(">Error: %s" % e)
 		time.sleep(10)
-	time.sleep(10)
+	time.sleep(5)

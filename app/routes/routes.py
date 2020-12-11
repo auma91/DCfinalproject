@@ -79,7 +79,7 @@ def index():
 		serial = redisCon.get(str(getCurrentUser().get_id())).decode("utf-8")
 		plant= filterPlantBySerial(serial)
 
-		if plant.outside:
+		if not plant.outside:
 			water = plant.dry
 		else:
 			rain = rainToday(getCurrentUser().zipcode)
