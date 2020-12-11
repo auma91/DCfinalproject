@@ -78,10 +78,15 @@ def index():
 	if currentUser():
 		serial = redisCon.get(str(getCurrentUser().get_id())).decode("utf-8")
 		plant= filterPlantBySerial(serial)
-		rain = rainToday(getCurrentUser().zipcode)
+
+		if plant.outside:
+			water = plant.dry
+		else:
+			rain = rainToday(getCurrentUser().zipcode)
+			water = plant.dry and not rain
 		return render_template('loggedin.html',
 		                       planttype="pottedplant.png" if plant.current_state() else "pottedplant.png" ,
-		                       water = plant.dry and not rain,
+		                       water = water,
 		                       user=getCurrentUser().name,
 		                       outdoors= "True" if plant.current_state() else "False",
 		                       plantid=plant.id)
