@@ -86,7 +86,7 @@ def index():
 			water = plant.dry and not rain
 		return render_template('loggedin.html',
 		                       planttype="pottedplant.png" if plant.current_state() else "pottedplant.png" ,
-		                       water = water,
+		                       water = "True" if water else "False",
 		                       user=getCurrentUser().name,
 		                       outdoors= "True" if plant.current_state() else "False",
 		                       plantid=plant.id)

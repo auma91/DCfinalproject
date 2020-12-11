@@ -41,7 +41,7 @@ class Plant(db.Model):
 	def update_dry(self):
 		self.dry = not self.dry
 	def __repr__(self):
-		return f"Plant('{self.id}', '{self.outside}', '{self.serial}', ' {self.dry})"
+		return f"Plant('{self.id}', '{self.outside}', '{self.serial}', '{self.dry}')"
 
 def callback(message):
 	#print(f"Received {message}.")
