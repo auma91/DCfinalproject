@@ -13,7 +13,7 @@ def filterPlantBySerial(serial):
 	return Plant.query.filter_by(serial=serial).first()
 
 def movePlant(plant):
-	plant.update_status()
+	plant.update_state()
 	db.session.add(plant)
 	db.session.commit()
 

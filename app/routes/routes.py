@@ -66,7 +66,7 @@ def register():
 			return render_template('register.html')
 
 @mod_auth.route('/move', methods=['POST'])
-def match():
+def move():
 	id = request.args.get('id')
 	plant = filterPlantByID(id)
 	movePlant(plant)
