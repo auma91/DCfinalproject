@@ -69,6 +69,7 @@ def register():
 def move():
 	id = request.args.get('id')
 	plant = filterPlantByID(id)
+	print(plant)
 	movePlant(plant)
 	return redirect(url_for("auth.index"))
 
@@ -96,10 +97,10 @@ def rainToday(zip):
 	url = "https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&exclude={}&appid={}".format(lat, lon, "current,daily,minutely,alerts", weatherapikey)
 	response = requests.get(url)
 	data = response.json()
-	print(len(data["hourly"]))
+	#print(len(data["hourly"]))
 	hourlydata = data["hourly"][:12]
 	for i in hourlydata:
-		print(i)
+		#print(i)
 		for j in i["weather"]:
 			if j["main"].lower() == "rain":
 				return True
