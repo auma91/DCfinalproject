@@ -25,7 +25,7 @@
                     <div class="sensor-move">
                         <form method="POST" action="/move?id={{ plantid }}" class="">
                             <span style="text-align: center;" class="">
-                                {% if outdoors == True %}
+                                {% if outdoors == "True" %}
                                 <h4>Sensor is Outdoors {{ outdoors }}</h4>
                                 {% else %}
                                 <h4>Sensor is Indoors {{ outdoors }}</h4>
@@ -35,7 +35,7 @@
 
 
                             <div class="container-login-form-btn">
-                                {% if outdoors == True %}
+                                {% if outdoors == "True" %}
                                 <button type="submit" class="login-form-btn">
                                     Send Sensor: Inside
                                 </button>
